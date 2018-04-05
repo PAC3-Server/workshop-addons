@@ -23,3 +23,4 @@ doors: https://steamcommunity.com/sharedfiles/filedetails/?id=499280258
 unbreakable tool: https://steamcommunity.com/sharedfiles/filedetails/?id=111158387
 weight stool: https://steamcommunity.com/sharedfiles/filedetails/?id=104480013
 more materials stool: https://steamcommunity.com/sharedfiles/filedetails/?id=105841291
+improved stacker: https://steamcommunity.com/sharedfiles/filedetails/?id=264467687
