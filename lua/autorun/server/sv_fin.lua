@@ -38,13 +38,13 @@ Changes :
 
 fintool = {}
 
-function fintool.initialize_()
+--function fintool.initialize_()
 	fintool.maxwind = 360
 	fintool.minwind = 0
 	fintool.wind = Vector(math.Rand(fintool.minwind, fintool.maxwind), math.Rand(fintool.minwind, fintool.maxwind), 0)
-end
+--end
 
-hook.Add("Initialize", "finitialize_", fintool.initialize_ )
+--hook.Add("Initialize", "finitialize_", fintool.initialize_ )
 
 function fintool.think_()
 	fintool.nextthink = fintool.nextthink or CurTime()
@@ -61,25 +61,25 @@ hook.Add( "Think", "finthink_", fintool.think_ )
 -- Min/Max delay
 function fintool.setmaxdelay(player, command, arg)
 	if player:IsAdmin() or player:IsSuperAdmin() then fintool.maxdelay = arg[1] end
-end 
+end
 concommand.Add("fintool_setmaxwinddelay",fintool.setmaxdelay)
 
 -- Min/Max wind
 function fintool.setmaxwind(player, command, arg)
 	if player:IsAdmin() or player:IsSuperAdmin() then fintool.maxwind = arg[1] end
-end 
+end
 
 concommand.Add("fintool_setmaxwind",fintool.setmaxwind)
 
 function fintool.setminwind(player, command, arg)
 	if player:IsAdmin() or player:IsSuperAdmin() then fintool.minwind = arg[1] end
-end 
+end
 
 concommand.Add("fintool_setminwind",fintool.setminwind)
 
 -- Max eff.
 function fintool.setmaxeff(player, command, arg)
 	if player:IsAdmin() or player:IsSuperAdmin() then fintool.maxeff = arg[1] end
-end 
+end
 
 concommand.Add("fintool_setmaxeff", fintool.setmaxeff)
