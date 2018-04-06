@@ -196,27 +196,38 @@ else
 			Args[13] = nil 
 		end
 		--
+		local e1 = nil
+		local e2 = nil
 		local e1ang = nil
 		local e1pos = nil
 		local e2ang = nil
 		local e2pos = nil
 		if Constraint.Entity[1] ~= nil and Constraint.Entity[2] ~= nil and Constraint.BuildDupeInfo ~= nil then
-			e1ang = Entity(Constraint.Entity[1].Index):GetAngles()
-			e1pos = Entity(Constraint.Entity[1].Index):GetPos()
-			e2ang = Entity(Constraint.Entity[2].Index):GetAngles()
-			e2pos = Entity(Constraint.Entity[2].Index):GetPos()
-			Entity(Constraint.Entity[2].Index):SetPos(e1pos - Constraint.BuildDupeInfo.EntityPos)
-			Entity(Constraint.Entity[1].Index):SetAngles(Constraint.BuildDupeInfo.Ent1Ang)
-			Entity(Constraint.Entity[2].Index):SetAngles(Constraint.BuildDupeInfo.Ent2Ang)
+			e1 = Entity(Constraint.Entity[1].Index)
+			e2 = Entity(Constraint.Entity[2].Index)
+			e1ang = e1:GetAngles()
+			e1pos = e1:GetPos()
+			e2ang = e2:GetAngles()
+			e2pos = e2:GetPos()
+			if not IsValid(e2:GetParent()) then
+				e2:SetPos(e1pos - Constraint.BuildDupeInfo.EntityPos)
+				e2:SetAngles(Constraint.BuildDupeInfo.Ent2Ang)
+			end
+			if not IsValid(e1:GetParent()) then e1:SetAngles(Constraint.BuildDupeInfo.Ent1Ang) end
+			
 		end
 		--
 		local const, rope = Factory.Func( unpack(Args) )
 		--
-		if e1ang ~= nil then
-			Entity(Constraint.Entity[1].Index):SetPos(e1pos)
-			Entity(Constraint.Entity[1].Index):SetAngles(e1ang)
-			Entity(Constraint.Entity[2].Index):SetPos(e2pos)
-			Entity(Constraint.Entity[2].Index):SetAngles(e2ang)
+		if e1 ~= nil then
+			if not IsValid(e1:GetParent()) then
+				e1:SetPos(e1pos)
+				e1:SetAngles(e1ang)
+			end
+			if not IsValid(e2:GetParent()) then
+				e2:SetPos(e2pos)
+				e2:SetAngles(e2ang)
+			end
 		end
 		if Constraint.BuildDupeInfo ~= nil then
 			const:GetTable().BuildDupeInfo = Constraint.BuildDupeInfo
@@ -227,7 +238,9 @@ else
 			controller:SetConstraint(const)
 			if rope then controller:SetRope(rope) end
 			const:GetTable().MyCrtl = controller:EntIndex()
-			controller:SetLength(controller.Inputs.Length.Value)
+			if controller.Inputs.Length.Src ~= nil then
+				controller:SetLength(controller.Inputs.Length.Value)
+			end
 		end
 	end
 	function PhysParentTable.RecreateConstraints(constraints, oldIndex, newIndex)
@@ -708,7 +721,7 @@ function TOOL.BuildCPanel(CPanel)
 	Checkbox5:SetDark(true)
 	Checkbox5:SetValue(GetConVar("physparent_weight"):GetBool())
 	Checkbox5.OnChange = function() GetConVar("physparent_weight"):SetBool(Checkbox5:GetChecked()) net.Start("physparent_weight") net.WriteBool(Checkbox5:GetChecked()) net.SendToServer() end
-	CPanel:SetName("Physical Parent V1.07")
+	CPanel:SetName("Physical Parent V1.07.1")
 	CPanel:AddItem(Slider)
 	CPanel:AddItem(Checkbox3)
 	CPanel:ControlHelp("It is recommended to use this for most of your props, since keeping collisions for all of them would be detrimental to performance. You must also use this if you want to keep interaction with entities such as seats and buttons")
